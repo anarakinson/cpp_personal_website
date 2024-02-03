@@ -20,3 +20,6 @@ else:
 
 ```
 
+### Notice:
+If you using `SSLServer` on localhost - don't forget replace `http://localhost` with `https://localhost`
+

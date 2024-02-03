@@ -1,5 +1,7 @@
 #define CPPHTTPLIB_OPENSSL_SUPPORT
 
+
+
 #include <httplib.h>
 #include <json/json.h>
 
@@ -29,27 +31,49 @@ void load_json(const char *filename, Json::Value &value) {
 }
 
 
-int main() {
+const char *test_content = "<html><body><h1>Hello</h1></html></body>";
 
-    std::cout << "Hello" << std::endl;
+
+int main() {
 
     Json::Value config;
     load_json("./configs/config.jsonc", config);
 
-    std::cout << config["ssl_cert"].asString() << " " << config.get("ssl_cert", "cert.pem").asString() << "\n";
+    std::cout << "Paths to ssl: \n" 
+              << config["ssl_cert"].asCString() << "\n"
+              << config["ssl_key"].asCString() << std::endl;
 
 
     // Create ssl server
+    std::cout << "Run server on " << config["server_ip"].asCString() << ":" << config["server_port"].asInt() << std::endl;
     httplib::SSLServer server(
         config["ssl_cert"].asCString(), 
         config["ssl_key"].asCString()
     );
-    // std::cout << "SSL OFF" << std::endl;
-    // httplib::Server server();
+    // httplib::Server server;
 
 
-    // server setup 
-
+    // Set test page
+    server.Get(
+        "/",
+        [&](const httplib::Request &req, httplib::Response &res) {
+            res.set_content(test_content, "text/html");
+        }
+    );
+    server.Get(
+        "/hi", 
+        [](const httplib::Request &req, httplib::Response &res) {
+            res.set_content("Hello World!", "text/plain");
+        }
+    );
+    // Stop the server when the user access /stop
+    server.Get(
+        "/stop", 
+        [&](const httplib::Request &req, httplib::Response &res) {
+            server.stop();
+            res.set_redirect("/");
+        }
+    );
 
     // listening port
     server.listen(
@@ -57,6 +81,7 @@ int main() {
         config["server_port"].asInt()
     );
 
+    std::cout << "Stop server" << std::endl;
     return 0;
 
 }

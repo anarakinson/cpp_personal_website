@@ -14,6 +14,14 @@ add_executable(
     main.cpp
 )
 
+file(
+    COPY 
+    ${CMAKE_CURRENT_SOURCE_DIR}/app 
+    ${CMAKE_CURRENT_SOURCE_DIR}/configs 
+    DESTINATION 
+    ${CMAKE_CURRENT_BINARY_DIR}/Debug
+)
+
 set_target_properties(
     website PROPERTIES 
     CXX_STANDARD 20 
