@@ -1,0 +1,11 @@
+{
+
+    // Server config
+    "server_ip" : "0.0.0.0",
+    "server_port" : 5000,
+
+    // Configuring SSL key and cert
+    "ssl" : true,
+    "ssl_key" : "./app/ssl/localhost-privateKey.key",
+    "ssl_cert" : "./app/ssl/localhost.crt"
+}
