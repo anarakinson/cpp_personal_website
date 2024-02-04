@@ -7,6 +7,7 @@ project(website)
 find_package(httplib CONFIG REQUIRED)
 find_package(jsoncpp CONFIG REQUIRED)
 find_package(OpenSSL REQUIRED)
+find_package(inja CONFIG REQUIRED)
 
 
 add_executable(
@@ -39,6 +40,7 @@ target_link_libraries(
     JsonCpp::JsonCpp
     OpenSSL::SSL 
     OpenSSL::Crypto
+    pantor::inja
 )
 
 
