@@ -2,6 +2,9 @@
 
 
 
+#include <responses.h>
+#include <utils.h>
+
 #include <httplib.h>
 #include <inja/inja.hpp>
 #include <json/json.h>
@@ -15,21 +18,6 @@
 
 
 
-void load_json(const char *filename, Json::Value &value) {
-
-    std::ifstream ifs(filename);
-    if (!ifs.is_open()) {
-        throw std::exception("Failed to open file");
-    }
-
-    Json::CharReaderBuilder builder;
-    builder["collectComments"] = true;
-    std::string errors;
-
-    if (!parseFromStream(builder, ifs, &value, &errors)) {
-        throw std::exception("Failed to parse json");
-    }
-}
 
 
 int main() {
@@ -53,73 +41,12 @@ int main() {
     // add directory with content
     server.set_mount_point("/app", "./app");
 
-    // Set test page
-    server.Get(
-        "/",           // address on site
-        [&](const httplib::Request &req, httplib::Response &res) {
-            // Load template
-            inja::Environment env;
-            inja::Template tmpt = env.parse_template("./app/html/index.html");
 
-            // Build data
-            inja::json page_data;
-            page_data["nothing"] = "nothing";
-
-            // render content   
-            res.set_content(env.render(tmpt, page_data).c_str(), "text/html");
-        }
-    );
-    // Set about page
-    server.Get(
-        "/about/",           // address on site
-        [&](const httplib::Request &req, httplib::Response &res) {
-            // Load template
-            inja::Environment env;
-            inja::Template tmpt = env.parse_template("./app/html/about.html");
-
-            // Build data
-            inja::json page_data;
-            page_data["nothing"] = "nothing";
-
-            // render content   
-            res.set_content(env.render(tmpt, page_data).c_str(), "text/html");
-        }
-    );
-    // Set about page
-    server.Get(
-        "/contacts/",           // address on site
-        [&](const httplib::Request &req, httplib::Response &res) {
-            // Load template
-            inja::Environment env;
-            inja::Template tmpt = env.parse_template("./app/html/contacts.html");
-
-            // Build data
-            inja::json page_data;
-            page_data["nothing"] = "nothing";
-
-            // render content   
-            res.set_content(env.render(tmpt, page_data).c_str(), "text/html");
-        }
-    );
-    // Set about page
-    server.Get(
-        "/projects/",           // address on site
-        [&](const httplib::Request &req, httplib::Response &res) {
-            // Load template
-            inja::Environment env;
-            inja::Template tmpt = env.parse_template("./app/html/projects.html");
-
-            // Build data
-            inja::json page_data;
-            page_data["nothing"] = "nothing";
-
-            // render content   
-            res.set_content(env.render(tmpt, page_data).c_str(), "text/html");
-        }
-    );
-
-
-
+    // Process requests
+    GetMain(server);
+    GetAbout(server);
+    GetContacts(server);
+    GetProjects(server);
 
     server.Get(
         "/hi", 
@@ -135,6 +62,7 @@ int main() {
             res.set_redirect("/");
         }
     );
+
 
     // listening port
     server.listen(
