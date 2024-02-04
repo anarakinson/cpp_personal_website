@@ -1,7 +1,6 @@
 #define CPPHTTPLIB_OPENSSL_SUPPORT
 
 
-
 #include <responses.h>
 #include <utils.h>
 
@@ -49,6 +48,9 @@ int main() {
     resp_processor.GetAbout(server);
     resp_processor.GetContacts(server);
     resp_processor.GetProjects(server);
+    // change language
+    resp_processor.ChangeLangEN(server);
+    resp_processor.ChangeLangRU(server);
 
     server.Get(
         "/hi", 
@@ -61,7 +63,7 @@ int main() {
         "/stop", 
         [&](const httplib::Request &req, httplib::Response &res) {
             server.stop();
-            res.set_redirect("/");
+            res.set_redirect(Pages::main());
         }
     );
 
@@ -73,6 +75,7 @@ int main() {
     );
 
     std::cout << "Stop server" << std::endl;
+
 
     return 0;
 

@@ -5,8 +5,6 @@
 #include <inja/inja.hpp>
 #include <json/json.h>
 
-#include <stdlib.h>
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -33,11 +31,11 @@ public:
             Pages::main(),           // address on site
             [&](const httplib::Request &req, httplib::Response &res) {
                 // Load template
-                inja::Template tmpt = env.parse_template("./app/html/index.html");
+                inja::Template tmpt = env.parse_template(lang + "index.html");
 
                 // Build data
                 page_data["nothing"] = "nothing";
-                // page_data["lang"] = lang;
+                page_data["lang"] = lang;
 
                 // render content   
                 res.set_content(env.render(tmpt, page_data).c_str(), "text/html");
@@ -52,11 +50,11 @@ public:
             Pages::about(),           // address on site
             [&](const httplib::Request &req, httplib::Response &res) {
                 // Load template
-                inja::Template tmpt = env.parse_template("./app/html/about.html");
+                inja::Template tmpt = env.parse_template(lang + "about.html");
 
                 // Build data
                 page_data["nothing"] = "nothing";
-                // page_data["lang"] = lang;
+                page_data["lang"] = lang;
 
                 // render content   
                 res.set_content(env.render(tmpt, page_data).c_str(), "text/html");
@@ -71,11 +69,11 @@ public:
             Pages::contacts(),           // address on site
             [&](const httplib::Request &req, httplib::Response &res) {
                 // Load template
-                inja::Template tmpt = env.parse_template("./app/html/contacts.html");
+                inja::Template tmpt = env.parse_template(lang + "contacts.html");
 
                 // Build data
                 page_data["nothing"] = "nothing";
-                // page_data["lang"] = lang;
+                page_data["lang"] = lang;
 
                 // render content   
                 res.set_content(env.render(tmpt, page_data).c_str(), "text/html");
@@ -84,17 +82,18 @@ public:
     }
 
 
+    // Projects page
     void GetProjects(httplib::SSLServer &server) {
         // Set about page
         server.Get(
             Pages::projects(),           // address on site
             [&](const httplib::Request &req, httplib::Response &res) {
                 // Load template
-                inja::Template tmpt = env.parse_template("./app/html/projects.html");
+                inja::Template tmpt = env.parse_template(lang + "projects.html");
 
                 // Build data
                 page_data["nothing"] = "nothing";
-                // page_data["lang"] = lang;
+                page_data["lang"] = lang;
 
                 // render content   
                 res.set_content(env.render(tmpt, page_data).c_str(), "text/html");
@@ -102,9 +101,34 @@ public:
         );
     }
 
+
+    // Change language     inja::Environment env_ru{"./app/html/ru/"};
+    void ChangeLangRU(httplib::SSLServer &server) {
+        server.Get(
+            "/ru/", 
+            [&](const httplib::Request &req, httplib::Response &res) {
+                lang = "ru/";
+                res.set_redirect(Pages::main());
+            }
+        );
+    }
+    // Change language     inja::Environment env_ru{"./app/html/ru/"};
+    void ChangeLangEN(httplib::SSLServer &server) {
+        server.Get(
+            "/en/", 
+            [&](const httplib::Request &req, httplib::Response &res) {
+                lang = "";
+                res.set_redirect(Pages::main());
+            }
+        );
+    }
+
+
 private:
 
-    inja::Environment env;
+    inja::Environment env{"./app/html/"};
     inja::json page_data;
+
+    std::string lang = "";
 
 };
