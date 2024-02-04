@@ -13,82 +13,98 @@
 
 
 
-void GetMain(httplib::SSLServer &server) {
-    // Set test page
-    server.Get(
-        "/",           // address on site
-        [&](const httplib::Request &req, httplib::Response &res) {
-            // Load template
-            inja::Environment env;
-            inja::Template tmpt = env.parse_template("./app/html/index.html");
+// Something like enum class for c-strings
+struct Pages {
 
-            // Build data
-            inja::json page_data;
-            page_data["nothing"] = "nothing";
+    static const char *main() { return "/"; }
+    static const char *about() { return "/about/"; }
+    static const char *contacts() { return "/contacts/"; }
+    static const char *projects() {return "/projects/"; }
 
-            // render content   
-            res.set_content(env.render(tmpt, page_data).c_str(), "text/html");
-        }
-    );
-}
+};
 
 
-void GetAbout(httplib::SSLServer &server) {
-    // Set about page
-    server.Get(
-        "/about/",           // address on site
-        [&](const httplib::Request &req, httplib::Response &res) {
-            // Load template
-            inja::Environment env;
-            inja::Template tmpt = env.parse_template("./app/html/about.html");
+class ResponseProcessor {
+public:
 
-            // Build data
-            inja::json page_data;
-            page_data["nothing"] = "nothing";
+    void GetMain(httplib::SSLServer &server) {
+        // Set test page
+        server.Get(
+            Pages::main(),           // address on site
+            [&](const httplib::Request &req, httplib::Response &res) {
+                // Load template
+                inja::Template tmpt = env.parse_template("./app/html/index.html");
 
-            // render content   
-            res.set_content(env.render(tmpt, page_data).c_str(), "text/html");
-        }
-    );
-}
+                // Build data
+                page_data["nothing"] = "nothing";
+                // page_data["lang"] = lang;
 
-
-void GetContacts(httplib::SSLServer &server) {
-    // Set about page
-    server.Get(
-        "/contacts/",           // address on site
-        [&](const httplib::Request &req, httplib::Response &res) {
-            // Load template
-            inja::Environment env;
-            inja::Template tmpt = env.parse_template("./app/html/contacts.html");
-
-            // Build data
-            inja::json page_data;
-            page_data["nothing"] = "nothing";
-
-            // render content   
-            res.set_content(env.render(tmpt, page_data).c_str(), "text/html");
-        }
-    );
-}
+                // render content   
+                res.set_content(env.render(tmpt, page_data).c_str(), "text/html");
+            }
+        );
+    }
 
 
-void GetProjects(httplib::SSLServer &server) {
-    // Set about page
-    server.Get(
-        "/projects/",           // address on site
-        [&](const httplib::Request &req, httplib::Response &res) {
-            // Load template
-            inja::Environment env;
-            inja::Template tmpt = env.parse_template("./app/html/projects.html");
+    // About page
+    void GetAbout(httplib::SSLServer &server) {
+        server.Get(
+            Pages::about(),           // address on site
+            [&](const httplib::Request &req, httplib::Response &res) {
+                // Load template
+                inja::Template tmpt = env.parse_template("./app/html/about.html");
 
-            // Build data
-            inja::json page_data;
-            page_data["nothing"] = "nothing";
+                // Build data
+                page_data["nothing"] = "nothing";
+                // page_data["lang"] = lang;
 
-            // render content   
-            res.set_content(env.render(tmpt, page_data).c_str(), "text/html");
-        }
-    );
-}
+                // render content   
+                res.set_content(env.render(tmpt, page_data).c_str(), "text/html");
+            }
+        );
+    }
 
+
+    // Contacts page
+    void GetContacts(httplib::SSLServer &server) {
+        server.Get(
+            Pages::contacts(),           // address on site
+            [&](const httplib::Request &req, httplib::Response &res) {
+                // Load template
+                inja::Template tmpt = env.parse_template("./app/html/contacts.html");
+
+                // Build data
+                page_data["nothing"] = "nothing";
+                // page_data["lang"] = lang;
+
+                // render content   
+                res.set_content(env.render(tmpt, page_data).c_str(), "text/html");
+            }
+        );
+    }
+
+
+    void GetProjects(httplib::SSLServer &server) {
+        // Set about page
+        server.Get(
+            Pages::projects(),           // address on site
+            [&](const httplib::Request &req, httplib::Response &res) {
+                // Load template
+                inja::Template tmpt = env.parse_template("./app/html/projects.html");
+
+                // Build data
+                page_data["nothing"] = "nothing";
+                // page_data["lang"] = lang;
+
+                // render content   
+                res.set_content(env.render(tmpt, page_data).c_str(), "text/html");
+            }
+        );
+    }
+
+private:
+
+    inja::Environment env;
+    inja::json page_data;
+
+};

@@ -18,12 +18,11 @@
 
 
 
-
-
 int main() {
 
     Json::Value config;
     load_json("./configs/config.jsonc", config);
+
 
     std::cout << "Paths to ssl: \n" 
               << config["ssl_cert"].asCString() << "\n"
@@ -38,15 +37,18 @@ int main() {
     );
     // httplib::Server server;
 
+    ResponseProcessor resp_processor{};
+
+
     // add directory with content
     server.set_mount_point("/app", "./app");
 
 
     // Process requests
-    GetMain(server);
-    GetAbout(server);
-    GetContacts(server);
-    GetProjects(server);
+    resp_processor.GetMain(server);
+    resp_processor.GetAbout(server);
+    resp_processor.GetContacts(server);
+    resp_processor.GetProjects(server);
 
     server.Get(
         "/hi", 
@@ -71,6 +73,7 @@ int main() {
     );
 
     std::cout << "Stop server" << std::endl;
+
     return 0;
 
 }

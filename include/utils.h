@@ -7,6 +7,7 @@
 #include <string>
 
 
+
 void load_json(const char *filename, Json::Value &value) {
 
     std::ifstream ifs(filename);
