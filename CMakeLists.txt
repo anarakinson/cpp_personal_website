@@ -20,7 +20,7 @@ file(
     ${CMAKE_CURRENT_SOURCE_DIR}/app 
     ${CMAKE_CURRENT_SOURCE_DIR}/configs 
     DESTINATION 
-    ${CMAKE_CURRENT_BINARY_DIR}/Debug
+    ${CMAKE_CURRENT_BINARY_DIR}/
 )
 
 set_target_properties(

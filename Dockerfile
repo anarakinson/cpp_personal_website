@@ -51,4 +51,4 @@ RUN cmake -B build -DCMAKE_TOOLCHAIN_FILE=/usr/src/app/vcpkg/scripts/buildsystem
 RUN cmake --build build 
 
 # run application
-ENTRYPOINT [ "./build/Debug/website" ] 
+ENTRYPOINT [ "./build/website" ] 
