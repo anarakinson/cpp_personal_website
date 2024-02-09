@@ -30,11 +30,11 @@ int main() {
 
     // Create ssl server
     std::cout << "Run server on " << config["server_ip"].asCString() << ":" << config["server_port"].asInt() << std::endl;
-    httplib::SSLServer server(
-        config["ssl_cert"].asCString(), 
-        config["ssl_key"].asCString()
-    );
-    // httplib::Server server;
+    // httplib::SSLServer server(
+    //     config["ssl_cert"].asCString(), 
+    //     config["ssl_key"].asCString()
+    // );
+    httplib::Server server;
 
     ResponseProcessor resp_processor{};
 
@@ -44,13 +44,13 @@ int main() {
 
 
     // Process requests
-    resp_processor.GetMain(server);
-    resp_processor.GetAbout(server);
-    resp_processor.GetContacts(server);
-    resp_processor.GetProjects(server);
+    resp_processor.GetMain(&server);
+    resp_processor.GetAbout(&server);
+    resp_processor.GetContacts(&server);
+    resp_processor.GetProjects(&server);
     // change language
-    resp_processor.ChangeLangEN(server);
-    resp_processor.ChangeLangRU(server);
+    resp_processor.ChangeLangEN(&server);
+    resp_processor.ChangeLangRU(&server);
 
     server.Get(
         "/hi", 

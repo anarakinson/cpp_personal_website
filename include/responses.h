@@ -25,9 +25,9 @@ struct Pages {
 class ResponseProcessor {
 public:
 
-    void GetMain(httplib::SSLServer &server) {
+    void GetMain(httplib::Server *server) {
         // Set test page
-        server.Get(
+        server->Get(
             Pages::main(),           // address on site
             [&](const httplib::Request &req, httplib::Response &res) {
                 // Load template
@@ -45,8 +45,8 @@ public:
 
 
     // About page
-    void GetAbout(httplib::SSLServer &server) {
-        server.Get(
+    void GetAbout(httplib::Server *server) {
+        server->Get(
             Pages::about(),           // address on site
             [&](const httplib::Request &req, httplib::Response &res) {
                 // Load template
@@ -64,8 +64,8 @@ public:
 
 
     // Contacts page
-    void GetContacts(httplib::SSLServer &server) {
-        server.Get(
+    void GetContacts(httplib::Server *server) {
+        server->Get(
             Pages::contacts(),           // address on site
             [&](const httplib::Request &req, httplib::Response &res) {
                 // Load template
@@ -83,9 +83,9 @@ public:
 
 
     // Projects page
-    void GetProjects(httplib::SSLServer &server) {
+    void GetProjects(httplib::Server *server) {
         // Set about page
-        server.Get(
+        server->Get(
             Pages::projects(),           // address on site
             [&](const httplib::Request &req, httplib::Response &res) {
                 // Load template
@@ -103,8 +103,8 @@ public:
 
 
     // Change language     inja::Environment env_ru{"./app/html/ru/"};
-    void ChangeLangRU(httplib::SSLServer &server) {
-        server.Get(
+    void ChangeLangRU(httplib::Server *server) {
+        server->Get(
             "/ru/", 
             [&](const httplib::Request &req, httplib::Response &res) {
                 lang = "ru/";
@@ -113,8 +113,8 @@ public:
         );
     }
     // Change language     inja::Environment env_ru{"./app/html/ru/"};
-    void ChangeLangEN(httplib::SSLServer &server) {
-        server.Get(
+    void ChangeLangEN(httplib::Server *server) {
+        server->Get(
             "/en/", 
             [&](const httplib::Request &req, httplib::Response &res) {
                 lang = "";
