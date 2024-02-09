@@ -26,6 +26,7 @@ class ResponseProcessor {
 public:
 
     void GetMain(httplib::Server *server) {
+        std::cout << "[*] main" << std::endl;
         // Set test page
         server->Get(
             Pages::main(),           // address on site
@@ -46,6 +47,7 @@ public:
 
     // About page
     void GetAbout(httplib::Server *server) {
+        std::cout << "[*] about" << std::endl;
         server->Get(
             Pages::about(),           // address on site
             [&](const httplib::Request &req, httplib::Response &res) {
@@ -65,6 +67,7 @@ public:
 
     // Contacts page
     void GetContacts(httplib::Server *server) {
+        std::cout << "[*] contacts" << std::endl;
         server->Get(
             Pages::contacts(),           // address on site
             [&](const httplib::Request &req, httplib::Response &res) {
@@ -84,6 +87,7 @@ public:
 
     // Projects page
     void GetProjects(httplib::Server *server) {
+        std::cout << "[*] projects" << std::endl;
         // Set about page
         server->Get(
             Pages::projects(),           // address on site
