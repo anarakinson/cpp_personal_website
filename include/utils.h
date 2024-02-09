@@ -12,7 +12,8 @@ void load_json(const char *filename, Json::Value &value) {
 
     std::ifstream ifs(filename);
     if (!ifs.is_open()) {
-        throw std::exception("Failed to open file");
+        std::cout << "Failed to open file" << std::endl;
+        throw std::exception();
     }
 
     Json::CharReaderBuilder builder;
@@ -20,6 +21,7 @@ void load_json(const char *filename, Json::Value &value) {
     std::string errors;
 
     if (!parseFromStream(builder, ifs, &value, &errors)) {
-        throw std::exception("Failed to parse json");
+        std::cout << "Failed to parse json" << std::endl;
+        throw std::exception();
     }
 }
