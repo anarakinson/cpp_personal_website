@@ -4,6 +4,13 @@ cmake_minimum_required(VERSION 3.5)
 project(website)
 
 
+if(MSVC)
+    set(OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/Debug)
+else()
+    set(OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/)
+endif()
+
+
 find_package(httplib CONFIG REQUIRED)
 find_package(jsoncpp CONFIG REQUIRED)
 find_package(OpenSSL REQUIRED)
@@ -20,7 +27,7 @@ file(
     ${CMAKE_CURRENT_SOURCE_DIR}/app 
     ${CMAKE_CURRENT_SOURCE_DIR}/configs 
     DESTINATION 
-    ${CMAKE_CURRENT_BINARY_DIR}/
+    ${OUTPUT_DIR}
 )
 
 set_target_properties(
