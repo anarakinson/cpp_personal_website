@@ -48,6 +48,7 @@ int main() {
     resp_processor.GetAbout(&server);
     resp_processor.GetContacts(&server);
     resp_processor.GetProjects(&server);
+    resp_processor.GetNowhere(&server);
     // change language
     resp_processor.ChangeLangEN(&server);
     resp_processor.ChangeLangRU(&server);

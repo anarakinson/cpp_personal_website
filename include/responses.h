@@ -18,6 +18,7 @@ struct Pages {
     static const char *about() { return "/about/"; }
     static const char *contacts() { return "/contacts/"; }
     static const char *projects() {return "/projects/"; }
+    static const char *nowhere() {return "/nowhere/"; }
 
 };
 
@@ -94,6 +95,27 @@ public:
             [&](const httplib::Request &req, httplib::Response &res) {
                 // Load template
                 inja::Template tmpt = env.parse_template(lang + "projects.html");
+
+                // Build data
+                page_data["nothing"] = "nothing";
+                page_data["lang"] = lang;
+
+                // render content   
+                res.set_content(env.render(tmpt, page_data).c_str(), "text/html");
+            }
+        );
+    }
+
+
+    // Projects page
+    void GetNowhere(httplib::Server *server) {
+        std::cout << "[*] nowhere" << std::endl;
+        // Set about page
+        server->Get(
+            Pages::nowhere(),           // address on site
+            [&](const httplib::Request &req, httplib::Response &res) {
+                // Load template
+                inja::Template tmpt = env.parse_template(lang + "about.html");
 
                 // Build data
                 page_data["nothing"] = "nothing";
