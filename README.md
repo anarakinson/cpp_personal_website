@@ -21,6 +21,7 @@ else:
 ```
 2. Install all packages from `requirements.txt`
 
+3. Run 'docker-compose up' and open port '3333'
 
 ### Notice:
 If you are using `SSLServer` on localhost - don't forget replace `http://localhost` with `https://localhost`
